@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "babel": "babel src/Test.tsx --out-file dist/Test.js"
+    "babel": "babel src/App.tsx --out-file dist/App.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.26.4",
