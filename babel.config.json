@@ -1,7 +1,18 @@
 {
   "presets": [
-    "@babel/preset-env",
-    "@babel/preset-react",
+    [
+      "@babel/preset-env",
+      {
+        "modules": false // ESM 형식을 유지하도록 설정
+      }
+    ],
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic", // 자동 런타임 사용
+        "importSource": "./src" // 사용자 정의 런타임 경로 지정
+      }
+    ],
     "@babel/preset-typescript"
   ]
 }
