@@ -7,7 +7,13 @@ settings:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
+      '@babel/cli':
+        specifier: ^7.26.4
+        version: 7.26.4(@babel/core@7.26.0)
+      '@babel/core':
+        specifier: ^7.26.0
+        version: 7.26.0
       '@babel/preset-env':
         specifier: ^7.26.0
         version: 7.26.0(@babel/core@7.26.0)
@@ -17,13 +23,6 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7.26.0
         version: 7.26.0(@babel/core@7.26.0)
-    devDependencies:
-      '@babel/cli':
-        specifier: ^7.26.4
-        version: 7.26.4(@babel/core@7.26.0)
-      '@babel/core':
-        specifier: ^7.26.0
-        version: 7.26.0
       '@eslint/js':
         specifier: ^9.17.0
         version: 9.17.0
