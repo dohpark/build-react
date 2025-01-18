@@ -1,11 +1,21 @@
 import createElement from '@react/createElement';
 
-export function jsx(elementTag: string, props: Record<string, any>) {
+export function jsx(type: string | Function, props: Record<string, unknown>) {
   const { children, ...restProps } = props;
-  return createElement(elementTag, restProps, children);
+
+  if (typeof type === 'string') {
+    return createElement(type, restProps, children);
+  }
+
+  return type();
 }
 
-export function jsxs(elementTag: string, props: Record<string, any>) {
+export function jsxs(type: string | Function, props: Record<string, unknown>) {
   const { children, ...restProps } = props;
-  return createElement(elementTag, restProps, children);
+
+  if (typeof type === 'string') {
+    return createElement(type, restProps, children);
+  }
+
+  return type();
 }
