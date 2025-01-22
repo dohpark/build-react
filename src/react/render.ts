@@ -23,7 +23,11 @@ function commitDom(vdom: VirtualDom, $parentElement: HTMLElement) {
   const $newElement = document.createElement(type);
 
   Object.entries(props).forEach(([key, value]) => {
-    $newElement.setAttribute(key, value as string);
+    if (key === 'onClick') {
+      $newElement.addEventListener('click', value);
+    } else {
+      $newElement.setAttribute(key, value as string);
+    }
   });
 
   $parentElement.appendChild($newElement);
