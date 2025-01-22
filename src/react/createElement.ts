@@ -12,7 +12,7 @@ function createElement(
   ...children: ChildNode[]
 ) {
   const childNodes = children.flat().map((child) => {
-    if (typeof child === 'string') {
+    if (typeof child === 'string' || typeof child === 'number') {
       return {
         type: 'TEXT_ELEMENT',
         props: { nodeValue: child },
