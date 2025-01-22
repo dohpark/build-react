@@ -6,6 +6,11 @@ export function render(virtualDom: VirtualDom) {
   commitDom(virtualDom, app as HTMLElement);
 }
 
+export function resetDom() {
+  const app = document.querySelector('#app')!;
+  app.innerHTML = '';
+}
+
 function commitDom(vdom: VirtualDom, $parentElement: HTMLElement) {
   const { type, props, children } = vdom;
 

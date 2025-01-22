@@ -1,21 +1,16 @@
 import createElement from '@react/createElement';
+import { increaseCurrentIndex } from './state';
 
 export function jsx(type: string | Function, props: Record<string, unknown>) {
   const { children, ...restProps } = props;
 
-  if (typeof type === 'string') {
-    return createElement(type, restProps, children);
+  if (typeof type === 'function') {
+    increaseCurrentIndex();
+    return type();
   }
-
-  return type();
+  return createElement(type, restProps, children);
 }
 
 export function jsxs(type: string | Function, props: Record<string, unknown>) {
-  const { children, ...restProps } = props;
-
-  if (typeof type === 'string') {
-    return createElement(type, restProps, children);
-  }
-
-  return type();
+  return jsx(type, props);
 }
