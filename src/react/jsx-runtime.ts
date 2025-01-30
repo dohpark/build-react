@@ -4,7 +4,7 @@ export function jsx(type: string | Function, props: Record<string, unknown>) {
   const { children, ...restProps } = props;
 
   if (typeof type === 'function') {
-    return type();
+    return type({ children, ...restProps });
   }
   return createElement(type, restProps, children);
 }
