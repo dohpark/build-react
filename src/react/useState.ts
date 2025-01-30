@@ -1,6 +1,11 @@
 import App from '../App';
 import { render, resetDom } from './render';
-import { currentIndex, stateStore, resetCurrentIndex } from './state';
+import {
+  currentIndex,
+  stateStore,
+  resetCurrentIndex,
+  increaseCurrentIndex,
+} from './state';
 
 export function useState(initialValue: any) {
   if (stateStore[currentIndex] === undefined) {
@@ -11,11 +16,14 @@ export function useState(initialValue: any) {
 
   const setState = (newValue: any) => {
     stateStore[capturedIndex] = newValue; // 상태 업데이트
+    console.log(capturedIndex, stateStore);
 
     rerenderApp(); // 앱을 전체 렌더링
   };
 
   const value = stateStore[capturedIndex]; // 현재 상태와 상태 업데이트 함수를 반환
+  increaseCurrentIndex();
+
   return [value, setState];
 }
 

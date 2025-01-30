@@ -10,13 +10,17 @@ function H2() {
 }
 
 function PositiveCounter() {
-  const [count, setCount] = useState(0);
+  const [countA, setCountA] = useState(0);
+  const [countB, setCountB] = useState(0);
 
   return (
     <div>
-      <div>{count}</div>
-      <button onClick={() => setCount(count + 1)}>+</button>
-      <button onClick={() => setCount(count - 1)}>-</button>
+      <div>{countA}</div>
+      <button onClick={() => setCountA(count + 1)}>+</button>
+      <button onClick={() => setCountA(count - 1)}>-</button>
+      <div>{countB}</div>
+      <button onClick={() => setCountB(count2 + 1)}>+</button>
+      <button onClick={() => setCountB(count2 - 1)}>-</button>
     </div>
   );
 }
