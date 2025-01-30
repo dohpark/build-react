@@ -9,7 +9,7 @@ export function render(virtualDom: VirtualDom) {
 function commitDom(vdom: VirtualDom, $parentElement: HTMLElement) {
   const { type, props, children } = vdom;
 
-  if (type === 'TEXT_ELEMENT') {
+  if (type === 'TEXT_ELEMENT' && props) {
     const { nodeValue } = props;
     $parentElement.innerText = nodeValue as string;
     return;
@@ -17,9 +17,11 @@ function commitDom(vdom: VirtualDom, $parentElement: HTMLElement) {
 
   const $newElement = document.createElement(type);
 
-  Object.entries(props).forEach(([key, value]) => {
-    $newElement.setAttribute(key, value as string);
-  });
+  if (props) {
+    Object.entries(props).forEach(([key, value]) => {
+      $newElement.setAttribute(key, value as string);
+    });
+  }
 
   $parentElement.appendChild($newElement);
 
