@@ -7,21 +7,20 @@ import {
   increaseCurrentIndex,
 } from './state';
 
-export function useState(initialValue: any) {
+export function useState<T>(initialValue: T): [T, (newValue: T) => void] {
   if (stateStore[currentIndex] === undefined) {
     stateStore[currentIndex] = initialValue; // 현재 인덱스의 상태가 없으면 초기값을 설정
   }
 
   const capturedIndex = currentIndex;
 
-  const setState = (newValue: any) => {
+  const setState = (newValue: T) => {
     stateStore[capturedIndex] = newValue; // 상태 업데이트
-    console.log(capturedIndex, stateStore);
 
     rerenderApp(); // 앱을 전체 렌더링
   };
 
-  const value = stateStore[capturedIndex]; // 현재 상태와 상태 업데이트 함수를 반환
+  const value = stateStore[capturedIndex] as T; // 현재 상태와 상태 업데이트 함수를 반환
   increaseCurrentIndex();
 
   return [value, setState];
