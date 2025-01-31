@@ -1,7 +1,7 @@
-import { render } from '@react/render';
+import { render, setPreviousVDom } from '@react/render';
 import App from './App';
 
-const element = App();
-console.log(element);
+const virtualDom = App();
 
-render(element);
+setPreviousVDom(virtualDom);
+render(virtualDom);

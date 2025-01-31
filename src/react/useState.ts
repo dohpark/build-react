@@ -1,5 +1,4 @@
-import App from '../App';
-import { render, resetDom } from './render';
+import { rerender } from './render';
 import {
   currentIndex,
   stateStore,
@@ -28,7 +27,5 @@ export function useState<T>(initialValue: T): [T, (newValue: T) => void] {
 
 function rerenderApp() {
   resetCurrentIndex(); // 렌더링 시작 시 상태 인덱스 초기화
-  const vdom = App(); // 루트 컴포넌트 다시 호출
-  resetDom();
-  render(vdom); // 화면 다시 렌더링
+  rerender();
 }
