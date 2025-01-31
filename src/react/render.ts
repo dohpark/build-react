@@ -34,7 +34,6 @@ export function rerender() {
     render(currentVDom);
   }
 
-  console.log(eventRegistry);
   setPreviousVDom(currentVDom); // 이전 VDOM 저장
 }
 
@@ -84,21 +83,18 @@ function updateDom(
 
   // 1. 새 노드가 추가되었을 경우
   if (!prevNode) {
-    console.log('#1');
     commitDom(currentNode, $parent);
     return;
   }
 
   // 2. 노드가 삭제되었을 경우
   if (!currentNode) {
-    console.log('#2');
     if (existingElement) $parent.removeChild(existingElement);
     return;
   }
 
   // 3. 타입이 다르면 교체
   if (prevNode.type !== currentNode.type) {
-    console.log('#3');
     commitDom(currentNode, $parent);
     return;
   }
@@ -131,8 +127,6 @@ function updateAttributes(
         element.textContent = String(currentProps[key]);
       } else if (key.startsWith('on')) {
         // 이벤트 처리
-        console.log(`Updating event: ${key} for`, element);
-
         registerEvent(key.slice(2).toLowerCase(), element, (event) =>
           (currentProps[key] as EventListener)(event.nativeEvent),
         );

@@ -36,8 +36,6 @@ export const registerEvent = (
   element: Element,
   listener: Listener,
 ) => {
-  console.log(`Registering event: ${eventType} on`, element);
-
   if (!eventRegistry.has(eventType)) {
     eventRegistry.set(eventType, new Map());
     document.addEventListener(eventType, dispatchEvent);
@@ -46,23 +44,17 @@ export const registerEvent = (
 };
 
 export const unregisterEvent = (eventType: string, element: Element) => {
-  console.log(`Unregistering event: ${eventType} from`, element);
-
   eventRegistry.get(eventType)?.delete(element);
 };
 
 // 이벤트 실행 (루트에서 처리)
 const dispatchEvent = (nativeEvent: Event) => {
-  console.log(`Dispatching event: ${nativeEvent.type} on`, nativeEvent.target);
-
   const syntheticEvent = createSyntheticEvent(nativeEvent);
   let currentTarget = nativeEvent.target as HTMLElement | null;
 
   while (currentTarget && !syntheticEvent.isPropagationStopped) {
     const listeners = eventRegistry.get(nativeEvent.type);
     if (listeners?.has(currentTarget)) {
-      console.log(`Executing handler for`, currentTarget);
-
       syntheticEvent.currentTarget = currentTarget;
       listeners.get(currentTarget)!(syntheticEvent);
     }
