@@ -1,6 +1,12 @@
 import { VirtualDom } from './types';
 import App from '../App';
 import { resetCurrentIndex } from './state';
+import {
+  eventRegistry,
+  Listener,
+  registerEvent,
+  unregisterEvent,
+} from './syntheticEvent';
 
 let previousVDom: VirtualDom | null = null;
 
@@ -28,6 +34,7 @@ export function rerender() {
     render(currentVDom);
   }
 
+  console.log(eventRegistry);
   setPreviousVDom(currentVDom); // 이전 VDOM 저장
 }
 
@@ -52,8 +59,9 @@ function commitDom(vdom: VirtualDom, $parent: HTMLElement) {
   const $newElement = document.createElement(type);
 
   Object.entries(props).forEach(([key, value]) => {
-    if (key === 'onClick') {
-      $newElement.addEventListener('click', value);
+    if (key.startsWith('on')) {
+      const eventType = key.slice(2).toLowerCase();
+      registerEvent(eventType, $newElement, value as Listener);
     } else {
       $newElement.setAttribute(key, value as string);
     }
@@ -112,16 +120,22 @@ function updateAttributes(
 
   for (const key in allProps) {
     if (currentProps[key] === undefined) {
-      element.removeAttribute(key);
+      if (key.startsWith('on')) {
+        unregisterEvent(key.slice(2).toLowerCase(), element);
+      } else {
+        element.removeAttribute(key);
+      }
     } else if (prevProps[key] !== currentProps[key]) {
       if (key === 'nodeValue') {
         // TEXT_ELEMENT 처리
         element.textContent = String(currentProps[key]);
       } else if (key.startsWith('on')) {
         // 이벤트 처리
-        const eventType = key.slice(2).toLowerCase();
-        element.removeEventListener(eventType, prevProps[key] as EventListener);
-        element.addEventListener(eventType, currentProps[key] as EventListener);
+        console.log(`Updating event: ${key} for`, element);
+
+        registerEvent(key.slice(2).toLowerCase(), element, (event) =>
+          (currentProps[key] as EventListener)(event.nativeEvent),
+        );
       } else {
         element.setAttribute(key, String(currentProps[key]));
       }
