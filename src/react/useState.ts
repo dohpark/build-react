@@ -1,10 +1,5 @@
 import { rerender } from './render';
-import {
-  currentIndex,
-  stateStore,
-  resetCurrentIndex,
-  increaseCurrentIndex,
-} from './state';
+import { currentIndex, stateStore, increaseCurrentIndex } from './state';
 
 export function useState<T>(initialValue: T): [T, (newValue: T) => void] {
   if (stateStore[currentIndex] === undefined) {
@@ -16,16 +11,11 @@ export function useState<T>(initialValue: T): [T, (newValue: T) => void] {
   const setState = (newValue: T) => {
     stateStore[capturedIndex] = newValue; // 상태 업데이트
 
-    rerenderApp(); // 앱을 전체 렌더링
+    rerender();
   };
 
   const value = stateStore[capturedIndex] as T; // 현재 상태와 상태 업데이트 함수를 반환
   increaseCurrentIndex();
 
   return [value, setState];
-}
-
-function rerenderApp() {
-  resetCurrentIndex(); // 렌더링 시작 시 상태 인덱스 초기화
-  rerender();
 }
