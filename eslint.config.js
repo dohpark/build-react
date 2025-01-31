@@ -23,5 +23,3 @@ export default tseslint.config(
     rules: { 'prettier/prettier': 'warn' },
   },
 );
-
-// 출처: https://romantech.net/1286 [로맨테크:티스토리]
