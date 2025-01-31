@@ -16,11 +16,11 @@ function PositiveCounter() {
   return (
     <div>
       <div>{countA}</div>
-      <button onClick={() => setCountA(count + 1)}>+</button>
-      <button onClick={() => setCountA(count - 1)}>-</button>
+      <button onClick={() => setCountA(countA + 1)}>+</button>
+      <button onClick={() => setCountA(countA - 1)}>-</button>
       <div>{countB}</div>
-      <button onClick={() => setCountB(count2 + 1)}>+</button>
-      <button onClick={() => setCountB(count2 - 1)}>-</button>
+      <button onClick={() => setCountB(countB + 1)}>+</button>
+      <button onClick={() => setCountB(countB - 1)}>-</button>
     </div>
   );
 }

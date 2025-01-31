@@ -3,7 +3,9 @@ import { VirtualDom } from './types';
 export function render(virtualDom: VirtualDom) {
   const app = document.querySelector('#app')!;
 
-  commitDom(virtualDom, app as HTMLElement);
+  virtualDom.children.forEach((childVDom) => {
+    commitDom(childVDom, app as HTMLElement);
+  });
 }
 
 export function resetDom() {
@@ -11,12 +13,12 @@ export function resetDom() {
   app.innerHTML = '';
 }
 
-function commitDom(vdom: VirtualDom, $parentElement: HTMLElement) {
+function commitDom(vdom: VirtualDom, $parent: HTMLElement) {
   const { type, props, children } = vdom;
 
   if (type === 'TEXT_ELEMENT') {
     const { nodeValue } = props;
-    $parentElement.innerText = nodeValue as string;
+    $parent.innerText = nodeValue as string;
     return;
   }
 
@@ -30,7 +32,7 @@ function commitDom(vdom: VirtualDom, $parentElement: HTMLElement) {
     }
   });
 
-  $parentElement.appendChild($newElement);
+  $parent.appendChild($newElement);
 
   children.forEach((childVDom) => {
     commitDom(childVDom, $newElement);
