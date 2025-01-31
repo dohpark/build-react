@@ -2,17 +2,17 @@ type ChildNode = ElementNode | null;
 
 interface ElementNode {
   type: string;
-  props: Record<string, any>;
+  props: Record<string, unknown>;
   children: ChildNode[];
 }
 
 function createElement(
   type: string,
-  props: Record<string, any>,
+  props: Record<string, unknown>,
   ...children: ChildNode[]
 ) {
-  const childNodes = children.map((child) => {
-    if (typeof child === 'string') {
+  const childNodes = children.flat().map((child) => {
+    if (typeof child === 'string' || typeof child === 'number') {
       return {
         type: 'TEXT_ELEMENT',
         props: { nodeValue: child },
@@ -24,10 +24,8 @@ function createElement(
 
   return {
     type,
-    props: {
-      ...props,
-      children: childNodes,
-    },
+    props,
+    children: childNodes,
   };
 }
 
