@@ -9,9 +9,10 @@ export function useState<T>(initialValue: T): [T, (newValue: T) => void] {
   const capturedIndex = currentIndex;
 
   const setState = (newValue: T) => {
-    stateStore[capturedIndex] = newValue; // 상태 업데이트
-
-    rerender();
+    if (stateStore[capturedIndex] !== newValue) {
+      stateStore[capturedIndex] = newValue;
+      rerender();
+    }
   };
 
   const value = stateStore[capturedIndex] as T; // 현재 상태와 상태 업데이트 함수를 반환
