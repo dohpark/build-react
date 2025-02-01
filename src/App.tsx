@@ -1,4 +1,5 @@
 import { VirtualDom } from '@react/types';
+import { useEffect } from '@react/useEffect';
 import { useState } from '@react/useState';
 
 function H1() {
@@ -12,9 +13,24 @@ function H2() {
 function PositiveCounter() {
   const [countA, setCountA] = useState(0);
   const [countB, setCountB] = useState(0);
+  const [message, setMessage] = useState('is below three');
+
+  useEffect(() => {
+    const newMessage =
+      countA < 3
+        ? 'is below three'
+        : countA < 5
+          ? 'is below five'
+          : 'is equal or above five';
+
+    if (message !== newMessage) {
+      setMessage(newMessage);
+    }
+  }, [countA]);
 
   return (
     <div>
+      <div>{message}</div>
       <div>{countA}</div>
       <button onClick={() => setCountA(countA + 1)}>+</button>
       <button onClick={() => setCountA(countA - 1)}>-</button>
