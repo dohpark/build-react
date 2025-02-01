@@ -1,12 +1,8 @@
 import { VirtualDom } from './types';
 import App from '../App';
 import { resetCurrentIndex } from './state';
-import {
-  eventRegistry,
-  Listener,
-  registerEvent,
-  unregisterEvent,
-} from './syntheticEvent';
+import { Listener, registerEvent, unregisterEvent } from './syntheticEvent';
+import { commitEffects, resetEffectsCurrentIndex } from './useEffect';
 
 let previousVDom: VirtualDom | null = null;
 
@@ -16,10 +12,13 @@ export function render(virtualDom: VirtualDom) {
   virtualDom.children.forEach((childVDom) => {
     commitDom(childVDom, app as HTMLElement);
   });
+
+  commitEffects();
 }
 
 export function rerender() {
   resetCurrentIndex(); // 상태 인덱스 초기화
+  resetEffectsCurrentIndex(); // useEffect 인덱스 초기화
   const currentVDom = App(); // 루트 컴포넌트 다시 호출
   const app = document.querySelector('#app')!;
 
@@ -34,6 +33,7 @@ export function rerender() {
     render(currentVDom);
   }
 
+  commitEffects(); // useEffect 실행
   setPreviousVDom(currentVDom); // 이전 VDOM 저장
 }
 
